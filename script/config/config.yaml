@@ -1,0 +1,60 @@
+DatasetConfig:
+  MODEL_TYPE : "IMPLICIT"
+  USER_COLUMN_NAME : "UserID"
+  ITEM_COLUMN_NAME : "MovieID"
+  INTERACTION_COLUMN_NAME : "Rating"
+  TIMESTAMP_COLUMN_NAME : "Timestamp"
+  NEGATIVE_INTERACTION_SAMPLE : 99
+  DATASET_DIR : "../data/processed/ncf_dataset.pkl"
+
+GMFConfig:
+  MODEL_NAME : "GMF_FACTOR-{}_NEG-{}_BS-{}_REGL2-{}_MODELTYPE-{}"
+  NUM_EPOCH : 50
+  BATCH_SIZE : 1024
+  OPTIMIZER : "ADAM"
+  ADAM_LR : 0.001
+  LATENT_DIM : 8
+  NUM_NEGATIVE : 4
+  L2_REGULARIZATION : 0.000001
+  USE_CUDA : False
+  DEVICE_ID : 7
+  PRETRAIN : False
+  PRETRAIN_GMF : "checkpoints/gmf/gmf_model_name.model"
+  MODEL_DIR : "checkpoints/gmf/{}_EPOCH{}_HR{:.4f}_NDCG{:.4f}.model"
+  TOP_K : 10
+
+MLPConfig:
+  MODEL_NAME : "MLP_FACTOR-{}_NEG-{}_BS-{}_REGL2-{}_LAYERS-{}_MODELTYPE-{}"
+  NUM_EPOCH : 50
+  BATCH_SIZE : 1024
+  OPTIMIZER : "ADAM"
+  ADAM_LR : 0.001
+  LATENT_DIM : 8
+  NUM_NEGATIVE : 4
+  LAYERS : [16,32,16,8]
+  L2_REGULARIZATION : 0.000001
+  USE_CUDA : False
+  DEVICE_ID : 7
+  PRETRAIN : False
+  PRETRAIN_GMF : "checkpoints/gmf/gmf_model_name.model"
+  MODEL_DIR : "checkpoints/mlp/{}_EPOCH{}_HR{:.4f}_NDCG{:.4f}.model"
+  TOP_K : 10
+
+NEUMFConfig:
+  MODEL_NAME : "NEUMF_FACTORGMF-{}_FACTORMLP-{}_NEG-{}_BS-{}_REGL2-{}_LAYERS-{}_MODELTYPE-{}"
+  NUM_EPOCH : 50
+  BATCH_SIZE : 1024
+  OPTIMIZER : "ADAM"
+  ADAM_LR : 0.001
+  LATENT_DIM_GMF : 8
+  LATENT_DIM_MLP : 8
+  NUM_NEGATIVE : 4
+  LAYERS : [16,32,16,8]
+  L2_REGULARIZATION : 0.000001
+  USE_CUDA : False
+  DEVICE_ID : 7
+  PRETRAIN : False
+  PRETRAIN_GMF : "checkpoints/gmf/gmf_model_name.model"
+  PRETRAIN_MLP : "checkpoints/mlp/mlp_model_name.model"
+  MODEL_DIR : "checkpoints/neumf/{}_EPOCH{}_HR{:.4f}_NDCG{:.4f}.model"
+  TOP_K : 10
